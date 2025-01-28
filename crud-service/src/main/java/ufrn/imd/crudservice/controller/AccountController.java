@@ -1,66 +1,27 @@
 package ufrn.imd.crudservice.controller;
 
-import ufrn.imd.crudservice.CustomFeatures.BankException;
-import ufrn.imd.crudservice.dto.Account;
-import ufrn.imd.crudservice.service.BankService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import ufrn.imd.crudservice.client.BankServiceClient;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/account")
 public class AccountController {
 
-    private final BankService bankService;
+    @Autowired
+    private BankServiceClient bankServiceClient;
 
-    public AccountController(BankService bankService) {
-        this.bankService = bankService;
+    // Endpoint Welcome
+    @GetMapping("/welcome")
+    public String welcome() {
+        return bankServiceClient.welcome();
     }
 
-    // Creates a new account
-    @PostMapping
-    public ResponseEntity<String> createAccountOp(@RequestBody String accountId) throws BankException {
-        String created = bankService.createAccountOp(accountId);
-        return ResponseEntity.ok(created);
-    }
+    // Endpoint Sum
+    @GetMapping("/sum/{x}/{y}")
+    public double sum(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y);}
 
-    // Obtain all accounts
-    @GetMapping
-    public ResponseEntity<List<Account>> findAll() {
-        List<Account> accounts = bankService.findAll();
-        return ResponseEntity.ok(accounts);
-    }
-
-    // Obtains account balance
-    @GetMapping("/{id}")
-    public ResponseEntity<Double> balance(@PathVariable String id) throws BankException {
-        Optional<Double> account = Optional.of(bankService.balance(id));
-        return account.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Transfer values between accounts
-    @PutMapping("/{id}")
-    public ResponseEntity<String> transferOp(@PathVariable String id, @RequestBody String idDestination, @RequestBody double value) throws BankException {
-        Optional<String> updated = bankService.transferOp(id, idDestination, value).describeConstable();
-        return updated.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Deposits a value in an account
-    @PutMapping("/{id}")
-    public ResponseEntity<String> depositOp(@PathVariable String id, @RequestBody double value) throws BankException {
-        Optional<String> updated = bankService.depositOp(id, value).describeConstable();
-        return updated.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Delete accounts
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccountOp(@PathVariable String id) throws BankException {
-        bankService.deleteAccountOp(id);
-        return ResponseEntity.noContent().build();
-    }
+    // Endpoint Multiplication
+    @GetMapping("/multiplication/{x}/{y}")
+    public double multiplication(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y);}
 }
