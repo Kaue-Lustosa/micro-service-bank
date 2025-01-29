@@ -19,9 +19,9 @@ public class AccountController {
 
     // Endpoint Sum
     @GetMapping("/sum/{x}/{y}")
-    public double sum(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y);}
+    public double sum(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y); }
 
     // Endpoint Multiplication
     @GetMapping("/multiplication/{x}/{y}")
-    public double multiplication(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y);}
+    public double multiplication(@PathVariable double x, @PathVariable double y){ return bankServiceClient.sum(x, y); }
 }

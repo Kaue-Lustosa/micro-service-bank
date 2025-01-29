@@ -24,7 +24,7 @@ public interface BankServiceClient{
 
     // Circuit Breaker e Retry applied to sum function
     @CircuitBreaker(name = "bankServiceCircuitBreaker", fallbackMethod = "fallbackMultiplication")
-    @Retry(name = "dbServiceRetry", fallbackMethod = "fallbackMultiplication")
+    @Retry(name = "BankServiceRetry", fallbackMethod = "fallbackMultiplication")
     @GetMapping("/bank/public/multiplication/{x}/{y}")
     double multiplication(@PathVariable double x,@PathVariable double y);
 }
